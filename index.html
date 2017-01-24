@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app="quantcast">
+<meta name="viewport" content="user-scalable=0, minimum-scale=1.0, maximum-scale=1.0,width=device-width" />
+
+<head>
+    <title>Quantcast Code Assignment</title>
+    <script src="https://use.fontawesome.com/055233cf95.js"></script>
+
+    <link rel="stylesheet/less" type="text/css" href="css/main.less" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script type="text/javascript" src="controllers/main.js"></script>
+</head>
+
+<!--Main Controller-->
+<body ng-controller="mainController">
+
+    <section class="sectionContainer">
+    <!--Header Portion with Title, No of Creatives and Upload and Add Buttons-->
+        <header class="sectionHeader">
+            <div class="flexBox">
+                <span class="titleText">CREATIVES</span>
+                <span class="roundedBorderText">{{creatives.length}}</span>
+            </div>
+            <div class="flexBox" id="controls">
+                <div id="uploadButton" class="borderLessButton"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload </div>
+                <div id="addButton" class="borderLessButton"><i class="fa fa-plus" aria-hidden="true"></i> Add </div>
+            </div>
+        </header>
+
+        <section class="creatives">
+           <!--Creatives Section-->
+            <div class="cardsContainer">
+                <div ng-click="selectAllCreatives()" ng-class="selectAllFlag ? 'deselectCreatives' : 'selectCreatives'"> Select All </div><br>
+                <div class="card" ng-repeat="creative in creatives">
+                    <div class="cardHeader flexBox">
+                        <div class="cardTitle flexBox">
+                            <div class="checkbox">
+                                <input type="checkbox" value="{{creative.creative_id}}" ng-model="creative.selected" id="{{creative.creative_id}}" name="check" />
+                                <label for="{{creative.creative_id}}"></label>
+                            </div>
+                            <span>{{creative.creative_title}}</span>
+                        </div>
+                        <i class="fa fa-trash-o" aria-hidden="true" ng-click="deleteSelectedDesign(creative)"></i>
+                    </div>
+                    <div class="creativeImages">
+                        <div class="imgContainer spinner" ng-repeat="cImage in creative.creativeImages|limitTo:2">
+                            <img data-src="{{cImage}}">
+                        </div>
+                        <div class="overlayText" ng-if="creative.creativeImages.length>2">{{creative.creativeImages.length}} sets - View All <span style="float:right;margin-right:10px;"><i class="fa fa-arrow-right" aria-hidden="true"></i></span></div>
+                    </div>
+                    <div class="cardDetails">
+                        <div class="cardDetailRow">
+                            <label for="creativeId">DoubleClick Creative Id</label>
+                            <span class="contentTitleText">{{creative.creative_id}}</span>
+                        </div>
+                        <div class="cardDetailRow">
+                            <label for="creativeName">Creative Name</label>
+                            <input type="text" name="creativeName" id="creativeName" ng-model="creative.creative_name" text="{{creative.creative_name}}">
+                        </div>
+                        <div class="cardDetailRow">
+                            <label for="language">Language</label>
+                            <div class="dropDown" id="language">
+                                <select ng-model="creative.language">
+                                  <option value="EN">English</option>
+                                  <option value="FR">French</option>
+                                  <option value="FI">Finnish</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blueTextButton">Add Impression Tracker</div>
+                </div>
+            </div>
+            <!--Creative Section End-->
+        </section>
+    </section>
+</body>
+
+</html>
